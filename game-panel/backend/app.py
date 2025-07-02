@@ -1,5 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_sqlalchemy import SQLAlchemy
+
 import subprocess
 import os
 
@@ -28,23 +27,7 @@ class GameServer(db.Model):
     container_id = db.Column(db.String(64))
 
 
-def _refresh_status(server: GameServer):
-    """Update the server.status field based on Docker compose state."""
-    result = subprocess.run(
-        ['docker', 'compose', '-f', server.compose_path, 'ps', '-q', server.name],
-        cwd=os.path.dirname(server.compose_path),
-        capture_output=True,
-        text=True,
-    )
-    server.status = 'running' if result.stdout.strip() else 'stopped'
 
-
-@app.route('/')
-def index():
-    servers = GameServer.query.all()
-    for s in servers:
-        _refresh_status(s)
-    db.session.commit()
     return render_template('index.html', servers=servers)
 
 
@@ -64,6 +47,7 @@ def _compose_cmd(server, action):
 
 
 @app.route('/servers/<int:server_id>/start')
+
 def start_server(server_id):
     server = GameServer.query.get_or_404(server_id)
     _compose_cmd(server, 'start')
@@ -73,6 +57,7 @@ def start_server(server_id):
 
 
 @app.route('/servers/<int:server_id>/stop')
+
 def stop_server(server_id):
     server = GameServer.query.get_or_404(server_id)
     _compose_cmd(server, 'stop')
@@ -82,6 +67,7 @@ def stop_server(server_id):
 
 
 @app.route('/servers/<int:server_id>/restart')
+
 def restart_server(server_id):
     server = GameServer.query.get_or_404(server_id)
     _compose_cmd(server, 'restart')
@@ -91,6 +77,7 @@ def restart_server(server_id):
 
 
 @app.route('/servers/<int:server_id>/delete')
+
 def delete_server(server_id):
     server = GameServer.query.get_or_404(server_id)
     _compose_cmd(server, 'down')
@@ -100,6 +87,7 @@ def delete_server(server_id):
 
 
 @app.route('/servers/new', methods=['GET', 'POST'])
+
 def new_server():
     if request.method == 'POST':
         name = request.form['name']
@@ -136,20 +124,6 @@ def server_detail(server_id):
     except Exception:
         logs = 'Unable to get logs.'
     return render_template('detail.html', server=server, logs=logs)
-
-
-@app.route('/servers/<int:server_id>/command', methods=['POST'])
-def server_command(server_id):
-    server = GameServer.query.get_or_404(server_id)
-    command = request.form['command']
-    docker_cmd = [
-        'docker', 'compose', '-f', server.compose_path, 'exec', server.name
-    ] + command.split()
-    subprocess.run(docker_cmd, cwd=os.path.dirname(server.compose_path))
-    flash('Command sent')
-    return redirect(url_for('server_detail', server_id=server.id))
-
-
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
