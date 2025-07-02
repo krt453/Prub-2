@@ -17,6 +17,7 @@ db = SQLAlchemy(app)
 
 
 
+
 class GameServer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False)
@@ -27,10 +28,7 @@ class GameServer(db.Model):
 
 
 
-def index():
-    servers = GameServer.query.all()
     return render_template('index.html', servers=servers)
-
 
 
 
@@ -126,8 +124,6 @@ def server_detail(server_id):
     except Exception:
         logs = 'Unable to get logs.'
     return render_template('detail.html', server=server, logs=logs)
-
-
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()

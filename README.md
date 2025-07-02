@@ -1,5 +1,6 @@
 # Game Panel
 
+
 - `game-panel/frontend/` – Placeholder for future frontend code.
 
 ## Running locally
@@ -15,3 +16,4 @@
    ```bash
    python game-panel/backend/app.py
    ```
+
