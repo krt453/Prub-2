@@ -1,0 +1,6 @@
+<!doctype html>
+<title>{{ server.name }}</title>
+<h1>{{ server.name }} ({{ server.game_type }})</h1>
+<p>Status: {{ server.status }}</p>
+<pre>{{ logs }}</pre>
+<a href="{{ url_for('index') }}">Back</a>
