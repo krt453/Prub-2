@@ -1,0 +1,57 @@
+body {
+    background-color: #222;
+    color: #eee;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    width: 90%;
+    margin: 20px auto;
+}
+a {
+    color: #8ab4f8;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1em;
+}
+th, td {
+    padding: 8px 12px;
+    border: 1px solid #555;
+}
+th {
+    background-color: #333;
+}
+tr:nth-child(even) {
+    background-color: #2a2a2a;
+}
+tr:nth-child(odd) {
+    background-color: #242424;
+}
+button, input[type=submit] {
+    background-color: #444;
+    color: #eee;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+button:hover, input[type=submit]:hover {
+    background-color: #555;
+}
+input[type=text], select {
+    background-color: #333;
+    color: #eee;
+    border: 1px solid #555;
+    padding: 6px;
+}
+pre {
+    background-color: #111;
+    padding: 10px;
+    overflow: auto;
+}

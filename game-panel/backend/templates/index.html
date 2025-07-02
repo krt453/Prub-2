@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Servers{% endblock %}
+{% block content %}
+<h1>Game Servers</h1>
+<p><a href="{{ url_for('new_server') }}">Add Server</a></p>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    {% for server in servers %}
+    <tr>
+        <td><a href="{{ url_for('server_detail', server_id=server.id) }}">{{ server.name }}</a></td>
+        <td>{{ server.game_type }}</td>
+        <td>{{ server.status }}</td>
+        <td>
+            <a href="{{ url_for('start_server', server_id=server.id) }}">Start</a>
+            <a href="{{ url_for('stop_server', server_id=server.id) }}">Stop</a>
+            <a href="{{ url_for('restart_server', server_id=server.id) }}">Restart</a>
+            <a href="{{ url_for('delete_server', server_id=server.id) }}">Delete</a>
+        </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="4">No servers configured</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}
