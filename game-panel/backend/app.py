@@ -1,14 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import (
-    LoginManager,
-    UserMixin,
-    login_user,
-    login_required,
-    logout_user,
-    current_user,
-)
-from werkzeug.security import generate_password_hash, check_password_hash
+
 import subprocess
 import os
 
@@ -24,15 +14,7 @@ BASE_COMPOSE_DIR = os.path.join(os.getcwd(), 'compose', 'game-servers')
 
 
 db = SQLAlchemy(app)
-login_manager = LoginManager(app)
-login_manager.login_view = 'login'
 
-
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    password = db.Column(db.String(200), nullable=False)
-    role = db.Column(db.String(20), default='user')
 
 
 class GameServer(db.Model):
@@ -44,36 +26,13 @@ class GameServer(db.Model):
     container_id = db.Column(db.String(64))
 
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
 
-
-@app.route('/')
-@login_required
 def index():
     servers = GameServer.query.all()
     return render_template('index.html', servers=servers)
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        user = User.query.filter_by(username=username).first()
-        if user and check_password_hash(user.password, password):
-            login_user(user)
-            return redirect(url_for('index'))
-        flash('Invalid credentials')
-    return render_template('login.html')
 
-
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for('login'))
 
 
 def _compose_cmd(server, action):
@@ -90,7 +49,7 @@ def _compose_cmd(server, action):
 
 
 @app.route('/servers/<int:server_id>/start')
-@login_required
+
 def start_server(server_id):
     server = GameServer.query.get_or_404(server_id)
     _compose_cmd(server, 'start')
@@ -100,7 +59,7 @@ def start_server(server_id):
 
 
 @app.route('/servers/<int:server_id>/stop')
-@login_required
+
 def stop_server(server_id):
     server = GameServer.query.get_or_404(server_id)
     _compose_cmd(server, 'stop')
@@ -110,7 +69,7 @@ def stop_server(server_id):
 
 
 @app.route('/servers/<int:server_id>/restart')
-@login_required
+
 def restart_server(server_id):
     server = GameServer.query.get_or_404(server_id)
     _compose_cmd(server, 'restart')
@@ -120,7 +79,7 @@ def restart_server(server_id):
 
 
 @app.route('/servers/<int:server_id>/delete')
-@login_required
+
 def delete_server(server_id):
     server = GameServer.query.get_or_404(server_id)
     _compose_cmd(server, 'down')
@@ -130,7 +89,7 @@ def delete_server(server_id):
 
 
 @app.route('/servers/new', methods=['GET', 'POST'])
-@login_required
+
 def new_server():
     if request.method == 'POST':
         name = request.form['name']
@@ -153,7 +112,6 @@ def new_server():
 
 
 @app.route('/servers/<int:server_id>')
-@login_required
 def server_detail(server_id):
     server = GameServer.query.get_or_404(server_id)
     logs = ''
