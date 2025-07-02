@@ -10,10 +10,18 @@
    pip install -r game-panel/backend/requirements.txt
    ```
 
+2. Set environment variables and create the database:
+   ```bash
+   export SECRET_KEY=your-secret-key
    export DATABASE_URI=mysql+pymysql://user:password@localhost/gamepanel
+   export COMMAND_TOKEN=choose-a-command-token
    ```
+   Make sure the `gamepanel` database exists in MySQL. The `COMMAND_TOKEN`
+   secures the endpoint used for sending commands to running servers.
+
 3. Run the application:
    ```bash
    python game-panel/backend/app.py
    ```
+
 
