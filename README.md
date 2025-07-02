@@ -1,10 +1,5 @@
 # Game Panel
 
-This repository contains a Flask-based panel to manage Dockerized game servers.
-
-## Structure
-
-- `game-panel/backend/` – Flask app with authentication and server management.
 - `game-panel/frontend/` – Placeholder for future frontend code.
 
 ## Running locally
@@ -22,10 +17,3 @@ This repository contains a Flask-based panel to manage Dockerized game servers.
    ```bash
    python game-panel/backend/app.py
    ```
-   The app will create the required tables on first run.
-
-## Features
-
-- Login system with hashed passwords and simple roles.
-- Create, start, stop, restart and delete game servers using Docker Compose.
-- Basic pages to list servers, view details/logs and create new ones.
