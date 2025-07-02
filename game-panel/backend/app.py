@@ -1,5 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy
+
 import subprocess
 import os
 
@@ -17,6 +16,7 @@ BASE_COMPOSE_DIR = os.path.join(os.getcwd(), 'compose', 'game-servers')
 db = SQLAlchemy(app)
 
 
+
 class GameServer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False)
@@ -26,10 +26,11 @@ class GameServer(db.Model):
     container_id = db.Column(db.String(64))
 
 
-@app.route('/')
+
 def index():
     servers = GameServer.query.all()
     return render_template('index.html', servers=servers)
+
 
 
 
@@ -48,6 +49,7 @@ def _compose_cmd(server, action):
 
 
 @app.route('/servers/<int:server_id>/start')
+
 def start_server(server_id):
     server = GameServer.query.get_or_404(server_id)
     _compose_cmd(server, 'start')
@@ -57,6 +59,7 @@ def start_server(server_id):
 
 
 @app.route('/servers/<int:server_id>/stop')
+
 def stop_server(server_id):
     server = GameServer.query.get_or_404(server_id)
     _compose_cmd(server, 'stop')
@@ -66,6 +69,7 @@ def stop_server(server_id):
 
 
 @app.route('/servers/<int:server_id>/restart')
+
 def restart_server(server_id):
     server = GameServer.query.get_or_404(server_id)
     _compose_cmd(server, 'restart')
@@ -75,6 +79,7 @@ def restart_server(server_id):
 
 
 @app.route('/servers/<int:server_id>/delete')
+
 def delete_server(server_id):
     server = GameServer.query.get_or_404(server_id)
     _compose_cmd(server, 'down')
@@ -84,6 +89,7 @@ def delete_server(server_id):
 
 
 @app.route('/servers/new', methods=['GET', 'POST'])
+
 def new_server():
     if request.method == 'POST':
         name = request.form['name']
