@@ -1,10 +1,5 @@
 # Game Panel
 
-This repository contains a minimal Flask-based panel to manage game servers.
-
-## Structure
-
-- `game-panel/backend/` – Flask app with login and server listing.
 - `game-panel/frontend/` – Placeholder for future frontend code.
 
 ## Running locally
@@ -22,5 +17,3 @@ This repository contains a minimal Flask-based panel to manage game servers.
    ```bash
    python game-panel/backend/app.py
    ```
-
-The app will create the required tables on first run.
