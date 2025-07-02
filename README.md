@@ -14,11 +14,12 @@
    ```bash
    export SECRET_KEY=your-secret-key
    export DATABASE_URI=mysql+pymysql://user:password@localhost/gamepanel
+   export COMMAND_TOKEN=choose-a-command-token
    ```
-   Make sure the `gamepanel` database exists in MySQL.
 
 3. Run the application:
    ```bash
    python game-panel/backend/app.py
    ```
+
 
