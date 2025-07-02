@@ -1,0 +1,15 @@
+<!doctype html>
+<title>New Server</title>
+<h1>Create Server</h1>
+<form method="post">
+    <label>Name <input type="text" name="name"></label><br>
+    <label>Game Type
+        <select name="game_type">
+            <option value="minecraft">Minecraft</option>
+            <option value="ark">Ark</option>
+            <option value="zomboid">Project Zomboid</option>
+        </select>
+    </label><br>
+    <button type="submit">Create</button>
+</form>
+<a href="{{ url_for('index') }}">Back</a>
